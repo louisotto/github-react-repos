@@ -9,6 +9,7 @@ type ResultsDataProps = {
  * @param {Array} data The returned response from the Apollo query
  */
 const ResultsData = ({ data }: ResultsDataProps) => {
+  console.log(data);
   return (
     <table>
       <thead>
@@ -20,7 +21,7 @@ const ResultsData = ({ data }: ResultsDataProps) => {
       </thead>
       <tbody>
         {data.search.edges.map(({ node }) => (
-          <tr>
+          <tr key={node.name}>
             <td className="border border-slate-300 p-2">
               <a href={node.url} target="_blank" rel="noopener noreferrer">
                 {node.name}

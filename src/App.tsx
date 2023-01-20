@@ -6,7 +6,7 @@ import ResultsTable from "./components/ResultsTable";
 const GET_REPOSITORIES = gql`
   query getRepositories {
     search(
-      query: "react language:javascript sort:stars"
+      query: "react language:javascript stars:>10000 sort:stars"
       type: REPOSITORY
       first: 100
     ) {
