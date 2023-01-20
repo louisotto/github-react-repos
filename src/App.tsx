@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import Header from "./components/Header";
 import ResultsTable from "./components/ResultsTable";
@@ -37,7 +37,32 @@ const Layout = ({ children }) => (
 
 function App() {
   const { loading, error, data } = useQuery(GET_REPOSITORIES);
+  const [search, setSearch] = useState("");
+  const [visibleResults, setVisibleResults] = useState([]);
+
+  // Set initial visible results from Apollo response
+  useEffect(() => {
+    if (!loading) {
+      setVisibleResults(data.search.edges);
+    }
+  }, [data]);
+
+  // Update visible results on search input change
+  useEffect(() => {
+    let filteredResults = data?.search?.edges.filter((repo) =>
+      repo.node.name.toLowerCase().includes(search)
+    );
+    setVisibleResults(filteredResults);
+  }, [search]);
+
+  // Clear search filters and return to initial locations state
+  function clearSearchFilters() {
+    setSearch("");
+  }
+  // Initial loading state
   if (loading) return <Layout>Loading...</Layout>;
+
+  // Error state
   if (error)
     return (
       <Layout>
@@ -45,9 +70,30 @@ function App() {
         <p>Error : {error.message}</p>
       </Layout>
     );
+
   return (
     <Layout>
-      <ResultsTable data={data} />
+      <div className="mb-5 mr-2">
+        <label htmlFor="filter" className="mr-2 inline-block">
+          Filter by repository name
+        </label>
+        <input
+          type="text"
+          name="filter"
+          id="filter"
+          className="rounded-md border-2 border-solid border-slate-300 p-1"
+          placeholder="e.g React"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button
+          onClick={() => clearSearchFilters()}
+          className="ml-2 rounded-md border-2 border-solid border-slate-300 bg-slate-300 px-3 py-1"
+        >
+          Clear
+        </button>
+      </div>
+      <ResultsTable data={visibleResults} />
     </Layout>
   );
 }

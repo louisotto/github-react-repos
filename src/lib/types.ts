@@ -1,4 +1,4 @@
-type ResultNode = {
+export type ResultNode = {
   node: {
     name: string;
     url: string;

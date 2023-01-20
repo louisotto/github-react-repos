@@ -1,15 +1,15 @@
 import React from "react";
-import { ApolloResponse } from "../../lib/types";
+import { ResultNode } from "../../lib/types";
 
 type ResultsDataProps = {
-  data: ApolloResponse;
+  data: ResultNode[];
 };
 /**
  * Presentational component outputting React Repository information
  * @param {Array} data The returned response from the Apollo query
  */
 const ResultsData = ({ data }: ResultsDataProps) => {
-  console.log(data);
+  if (!data) return null;
   return (
     <table>
       <thead>
@@ -20,8 +20,8 @@ const ResultsData = ({ data }: ResultsDataProps) => {
         </tr>
       </thead>
       <tbody>
-        {data.search.edges.map(({ node }) => (
-          <tr key={node.name}>
+        {data.map(({ node }, key) => (
+          <tr key={key}>
             <td className="border border-slate-300 p-2">
               <a href={node.url} target="_blank" rel="noopener noreferrer">
                 {node.name}
