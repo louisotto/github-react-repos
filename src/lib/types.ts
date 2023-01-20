@@ -12,9 +12,3 @@ export type ResultNode = {
     };
   };
 };
-
-export type ApolloResponse = {
-  search: {
-    edges: ResultNode[];
-  };
-};

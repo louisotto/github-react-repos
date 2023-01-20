@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import Header from "./components/Header";
 import ResultsTable from "./components/ResultsTable";
+import Filter from "./components/Filter/index";
 
 const GET_REPOSITORIES = gql`
   query getRepositories {
@@ -73,26 +74,11 @@ function App() {
 
   return (
     <Layout>
-      <div className="mb-5 mr-2">
-        <label htmlFor="filter" className="mr-2 inline-block">
-          Filter by repository name
-        </label>
-        <input
-          type="text"
-          name="filter"
-          id="filter"
-          className="rounded-md border-2 border-solid border-slate-300 p-1"
-          placeholder="e.g React"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button
-          onClick={() => clearSearchFilters()}
-          className="ml-2 rounded-md border-2 border-solid border-slate-300 bg-slate-300 px-3 py-1"
-        >
-          Clear
-        </button>
-      </div>
+      <Filter
+        search={search}
+        setSearch={setSearch}
+        clearSearchFilters={clearSearchFilters}
+      />
       <ResultsTable data={visibleResults} />
     </Layout>
   );
