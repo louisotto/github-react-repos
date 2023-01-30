@@ -5,9 +5,10 @@ import ResultsTable from "./components/ResultsTable";
 import Filter from "./components/Filter/index";
 
 const GET_REPOSITORIES = gql`
-  query getRepositories {
+  query getRepositories($search: String!) {
     search(
-      query: "react language:javascript stars:>10000 sort:stars"
+      # query: $search + " language:javascript stars:>10000 sort:stars"
+      query: $search
       type: REPOSITORY
       first: 100
     ) {
@@ -37,32 +38,17 @@ const Layout = ({ children }) => (
 );
 
 function App() {
-  const { loading, error, data } = useQuery(GET_REPOSITORIES);
-  const [search, setSearch] = useState("");
-  const [visibleResults, setVisibleResults] = useState([]);
-
-  // Set initial visible results from Apollo response
-  useEffect(() => {
-    if (!loading) {
-      setVisibleResults(data.search.edges);
-    }
-  }, [data]);
-
-  // Update visible results on search input change
-  useEffect(() => {
-    let filteredResults = data?.search?.edges.filter((repo) =>
-      repo.node.name.toLowerCase().includes(search)
-    );
-    setVisibleResults(filteredResults);
-  }, [search]);
+  const [search, setSearch] = useState("react");
+  const { loading, error, data, refetch } = useQuery(GET_REPOSITORIES, {
+    variables: {
+      search: `${search} language:javascript stars:>10000 sort:stars`,
+    },
+  });
 
   // Clear search filters and return to initial locations state
   function clearSearchFilters() {
-    setSearch("");
+    setSearch("react");
   }
-  // Initial loading state
-  if (loading) return <Layout>Loading...</Layout>;
-
   // Error state
   if (error)
     return (
@@ -77,9 +63,10 @@ function App() {
       <Filter
         search={search}
         setSearch={setSearch}
+        refetch={refetch}
         clearSearchFilters={clearSearchFilters}
       />
-      <ResultsTable data={visibleResults} />
+      {loading ? <p>Loading...</p> : <ResultsTable data={data.search.edges} />}
     </Layout>
   );
 }
