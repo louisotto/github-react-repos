@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import Header from "./components/Header";
 import ResultsTable from "./components/ResultsTable";
@@ -57,6 +57,8 @@ function App() {
         <p>Error : {error.message}</p>
       </Layout>
     );
+
+  console.log(data);
 
   return (
     <Layout>
