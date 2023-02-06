@@ -41,7 +41,7 @@ function App() {
   const [search, setSearch] = useState("react");
   const { loading, error, data, refetch } = useQuery(GET_REPOSITORIES, {
     variables: {
-      search: `${search} language:javascript stars:>10000 sort:stars`,
+      search: `${search} language:javascript stars\:\>10000 sort:stars`,
     },
   });
 

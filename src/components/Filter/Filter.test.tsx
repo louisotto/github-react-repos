@@ -1,4 +1,3 @@
-import React from "react";
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 
@@ -13,6 +12,7 @@ describe("Filter tests", () => {
         search=""
         setSearch={demoFunction}
         clearSearchFilters={demoFunction}
+        refetch={demoFunction}
       />
     );
 
@@ -25,6 +25,7 @@ describe("Filter tests", () => {
         search=""
         setSearch={demoFunction}
         clearSearchFilters={demoFunction}
+        refetch={demoFunction}
       />
     );
 

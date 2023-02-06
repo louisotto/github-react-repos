@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 type FilterProps = {
   search: string;
   setSearch: Function;
@@ -35,7 +33,7 @@ const Filter = ({
         onChange={(e) => {
           setSearch(e.target.value);
           refetch({
-            search: `${e.target.value}  language:javascript stars:>10000 sort:stars`,
+            search: `${e.target.value} language:javascript stars\:\>10000 sort:stars`,
           });
         }}
       />

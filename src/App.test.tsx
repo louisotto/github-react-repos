@@ -40,7 +40,7 @@ const mocks = [
     request: {
       query: GET_REPOSITORIES,
       variables: {
-        search: "react language:javascript stars:&gt;10000 sort:stars",
+        search: "react language:javascript stars:>10000 sort:stars",
       },
     },
     result: {
